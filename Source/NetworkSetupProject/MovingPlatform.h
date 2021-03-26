@@ -17,6 +17,7 @@ class NETWORKSETUPPROJECT_API AMovingPlatform : public AStaticMeshActor
 public:
 	AMovingPlatform();
 
+	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 
 	UPROPERTY(EditAnywhere)
