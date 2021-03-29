@@ -3,23 +3,29 @@
 
 #include "MultiplayerGameInstance.h"
 #include "Engine/Engine.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
+#include "PlatformTrigger.h"
 
 UMultiplayerGameInstance::UMultiplayerGameInstance(const FObjectInitializer& objectInitializer)
 {
-	//Super(objectInitializer);
 	UE_LOG(LogTemp, Warning, TEXT("Constructor game instance log."));
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> menuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
+	if (!ensure(menuBPClass.Class != nullptr))
+		return;
+	_menuClass = menuBPClass.Class;
 }
 
 void UMultiplayerGameInstance::Init()
 {
-	//Super::Init();
-	UE_LOG(LogTemp, Warning, TEXT("Constructor init log."));
+	UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *_menuClass->GetName());
 }
 
 void UMultiplayerGameInstance::Host()
 {
 	UEngine* engine = GetEngine();
-	if (!ensure(engine != nullptr)) 
+	if (!ensure(engine != nullptr))
 		return;
 	engine->AddOnScreenDebugMessage(0, 2, FColor::Yellow, TEXT("Hosting"));
 
