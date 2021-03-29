@@ -21,6 +21,9 @@ protected:
 	virtual void Init() override;
 
 public:
+	UFUNCTION(BlueprintCallable)
+	void LoadMenu();
+
 	UFUNCTION(Exec)
 	void Host();
 

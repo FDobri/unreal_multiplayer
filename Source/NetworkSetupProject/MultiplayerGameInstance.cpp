@@ -22,6 +22,17 @@ void UMultiplayerGameInstance::Init()
 	UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *_menuClass->GetName());
 }
 
+void UMultiplayerGameInstance::LoadMenu()
+{
+	if (!ensure(_menuClass != nullptr))
+		return;
+	UUserWidget* menu = CreateWidget<UUserWidget>(this, _menuClass);
+	if (!ensure(menu != nullptr))
+		return;
+	menu->AddToViewport();
+	menu->bIsFocusable = true;
+}
+
 void UMultiplayerGameInstance::Host()
 {
 	UEngine* engine = GetEngine();
