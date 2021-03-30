@@ -31,6 +31,17 @@ void UMultiplayerGameInstance::LoadMenu()
 		return;
 	menu->AddToViewport();
 	menu->bIsFocusable = true;
+
+	APlayerController* playerController = GetFirstLocalPlayerController();
+	if (!ensure(playerController != nullptr))
+		return;
+
+	FInputModeUIOnly inputMode;
+	inputMode.SetWidgetToFocus(menu->TakeWidget());
+	inputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	playerController->SetInputMode(inputMode);
+
+	playerController->SetShowMouseCursor(true);
 }
 
 void UMultiplayerGameInstance::Host()
