@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
 #include "MainMenu.generated.h"
 
 /**
@@ -14,7 +15,20 @@ class NETWORKSETUPPROJECT_API UMainMenu : public UUserWidget
 {
 	GENERATED_BODY()
 	
-public:
-	//UPROPERTY(meta = (BindWidget))
+protected:
+	virtual bool Initialize() override;
 
+public:
+	UFUNCTION()
+	void OnHostButtonClicked();
+
+	UFUNCTION()
+	void OnJoinButtonClicked();
+
+protected:
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* HostButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* JoinButton;
 };
