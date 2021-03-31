@@ -43,11 +43,11 @@ void UMultiplayerGameInstance::LoadInGameMenu()
 {
 	if (!ensure(_inGameMenuClass != nullptr))
 		return;
-	UMenuWidgetBase* inGameMenu = CreateWidget<UInGameMenu>(this, _inGameMenuClass);
-	if (!ensure(inGameMenu != nullptr))
+	_inGameMenu = CreateWidget<UInGameMenu>(this, _inGameMenuClass);
+	if (!ensure(_inGameMenu != nullptr))
 		return;
-	inGameMenu->Setup();
-	inGameMenu->SetMenuInterface(this);
+	_inGameMenu->Setup();
+	_inGameMenu->SetMenuInterface(this);
 }
 
 void UMultiplayerGameInstance::Host()

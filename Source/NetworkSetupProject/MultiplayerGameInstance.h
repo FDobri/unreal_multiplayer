@@ -39,4 +39,5 @@ private:
 	TSubclassOf<class UUserWidget> _inGameMenuClass;
 
 	class UMenuWidgetBase* _menu;
+	class UMenuWidgetBase* _inGameMenu;
 };
