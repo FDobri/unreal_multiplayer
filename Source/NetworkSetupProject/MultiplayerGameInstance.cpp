@@ -6,6 +6,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "PlatformTrigger.h"
+#include "MainMenu.h"
 
 UMultiplayerGameInstance::UMultiplayerGameInstance(const FObjectInitializer& objectInitializer)
 {
@@ -26,26 +27,19 @@ void UMultiplayerGameInstance::LoadMenu()
 {
 	if (!ensure(_menuClass != nullptr))
 		return;
-	UUserWidget* menu = CreateWidget<UUserWidget>(this, _menuClass);
-	if (!ensure(menu != nullptr))
+	_menu = CreateWidget<UMainMenu>(this, _menuClass);
+	if (!ensure(_menu != nullptr))
 		return;
-	menu->AddToViewport();
-	menu->bIsFocusable = true;
-
-	APlayerController* playerController = GetFirstLocalPlayerController();
-	if (!ensure(playerController != nullptr))
-		return;
-
-	FInputModeUIOnly inputMode;
-	inputMode.SetWidgetToFocus(menu->TakeWidget());
-	inputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	playerController->SetInputMode(inputMode);
-
-	playerController->SetShowMouseCursor(true);
+	_menu->Setup();
+	_menu->SetMenuInterface(this);
 }
 
 void UMultiplayerGameInstance::Host()
 {
+	if (_menu != nullptr)
+	{
+		_menu->Teardown();
+	}
 	UEngine* engine = GetEngine();
 	if (!ensure(engine != nullptr))
 		return;

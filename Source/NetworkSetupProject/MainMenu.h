@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "MenuInterface.h"
 #include "MainMenu.generated.h"
 
 /**
@@ -25,10 +26,18 @@ public:
 	UFUNCTION()
 	void OnJoinButtonClicked();
 
+	void SetMenuInterface(IMenuInterface* menuInterface);
+
+	void Setup();
+	void Teardown();
+
 protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* HostButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* JoinButton;
+
+private:
+	IMenuInterface* _menuInterface;
 };

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "MenuInterface.h"
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "MultiplayerGameInstance.generated.h"
@@ -10,7 +11,7 @@
  * 
  */
 UCLASS()
-class NETWORKSETUPPROJECT_API UMultiplayerGameInstance : public UGameInstance
+class NETWORKSETUPPROJECT_API UMultiplayerGameInstance : public UGameInstance, public IMenuInterface
 {
 	GENERATED_BODY()
 
@@ -32,4 +33,6 @@ public:
 
 private:
 	TSubclassOf<class UUserWidget> _menuClass;
+
+	class UMainMenu* _menu;
 };
