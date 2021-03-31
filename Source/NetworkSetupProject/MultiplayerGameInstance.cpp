@@ -7,15 +7,20 @@
 #include "Blueprint/UserWidget.h"
 #include "PlatformTrigger.h"
 #include "MainMenu.h"
+#include "InGameMenu.h"
+#include "MenuWidgetBase.h"
 
 UMultiplayerGameInstance::UMultiplayerGameInstance(const FObjectInitializer& objectInitializer)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Constructor game instance log."));
-
-	static ConstructorHelpers::FClassFinder<UUserWidget> menuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
+	ConstructorHelpers::FClassFinder<UUserWidget> menuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
 	if (!ensure(menuBPClass.Class != nullptr))
 		return;
 	_menuClass = menuBPClass.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget> inGameMenuBPClass(TEXT("/Game/MenuSystem/WBP_InGameMenu"));
+	if (!ensure(inGameMenuBPClass.Class != nullptr))
+		return;
+	_inGameMenuClass = inGameMenuBPClass.Class;
 }
 
 void UMultiplayerGameInstance::Init()
@@ -32,6 +37,17 @@ void UMultiplayerGameInstance::LoadMenu()
 		return;
 	_menu->Setup();
 	_menu->SetMenuInterface(this);
+}
+
+void UMultiplayerGameInstance::LoadInGameMenu()
+{
+	if (!ensure(_inGameMenuClass != nullptr))
+		return;
+	UMenuWidgetBase* inGameMenu = CreateWidget<UInGameMenu>(this, _inGameMenuClass);
+	if (!ensure(inGameMenu != nullptr))
+		return;
+	inGameMenu->Setup();
+	inGameMenu->SetMenuInterface(this);
 }
 
 void UMultiplayerGameInstance::Host()
@@ -53,6 +69,10 @@ void UMultiplayerGameInstance::Host()
 
 void UMultiplayerGameInstance::Join(const FString& address)
 {
+	if (_menu != nullptr)
+	{
+		_menu->Teardown();
+	}
 	UEngine* engine = GetEngine();
 	if (!ensure(engine != nullptr))
 		return;

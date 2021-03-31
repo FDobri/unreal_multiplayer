@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "MenuWidgetBase.h"
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
+#include "Components/EditableTextBox.h"
 #include "MenuInterface.h"
 #include "MainMenu.generated.h"
 
@@ -13,7 +14,7 @@
  * 
  */
 UCLASS()
-class NETWORKSETUPPROJECT_API UMainMenu : public UUserWidget
+class NETWORKSETUPPROJECT_API UMainMenu : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 	
@@ -27,10 +28,8 @@ public:
 	void OnJoinButtonClicked();
 	UFUNCTION()
 	void OnCancelButtonClicked();
-
-	void SetMenuInterface(IMenuInterface* menuInterface);
-	void Setup();
-	void Teardown();
+	UFUNCTION()
+	void OnJoinIPAdressButtonClicked();
 
 protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -43,6 +42,12 @@ protected:
 	UButton* CancelButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* JoinIPAddressButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UEditableTextBox* IPAddressInputField;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UWidgetSwitcher* MenuSwitcher;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -50,7 +55,4 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UWidget* InitialMenu;
-
-private:
-	IMenuInterface* _menuInterface;
 };

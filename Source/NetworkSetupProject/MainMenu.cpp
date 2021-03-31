@@ -18,6 +18,7 @@ bool UMainMenu::Initialize()
 	HostButton->OnClicked.AddDynamic(this, &UMainMenu::OnHostButtonClicked);
 	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OnJoinButtonClicked);
 	CancelButton->OnClicked.AddDynamic(this, &UMainMenu::OnCancelButtonClicked);
+	JoinIPAddressButton->OnClicked.AddDynamic(this, &UMainMenu::OnJoinIPAdressButtonClicked);
 	return true;
 }
 
@@ -47,47 +48,12 @@ void UMainMenu::OnCancelButtonClicked()
 	MenuSwitcher->SetActiveWidget(InitialMenu);
 }
 
-void UMainMenu::SetMenuInterface(IMenuInterface* menuInterface)
+void UMainMenu::OnJoinIPAdressButtonClicked()
 {
-	_menuInterface = menuInterface;
-}
-
-void UMainMenu::Setup()
-{
-	this->AddToViewport();
-	this->bIsFocusable = true;
-
-	UWorld* world = GetWorld();
-	if (!ensure(world != nullptr))
-		return;
-
-	APlayerController* playerController = world->GetFirstPlayerController();
-	if (!ensure(playerController != nullptr))
-		return;
-
-	FInputModeUIOnly inputMode;
-	inputMode.SetWidgetToFocus(this->TakeWidget());
-	inputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	playerController->SetInputMode(inputMode);
-
-	playerController->SetShowMouseCursor(true);
-}
-
-void UMainMenu::Teardown()
-{
-	this->RemoveFromViewport();
-	this->bIsFocusable = false;
-
-	UWorld* world = GetWorld();
-	if (!ensure(world != nullptr))
-		return;
-
-	APlayerController* playerController = world->GetFirstPlayerController();
-	if (!ensure(playerController != nullptr))
-		return;
-
-	FInputModeGameOnly inputMode;
-	playerController->SetInputMode(inputMode);
-
-	playerController->SetShowMouseCursor(false);
+	if (_menuInterface != nullptr)
+	{
+		const FString ipAddress = IPAddressInputField->GetText().ToString();
+		_menuInterface->Join(ipAddress);
+		UE_LOG(LogTemp, Warning, TEXT("Joining server."));
+	}
 }
