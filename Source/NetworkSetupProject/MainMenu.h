@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "Components/WidgetSwitcher.h"
 #include "MenuInterface.h"
 #include "MainMenu.generated.h"
 
@@ -22,12 +23,12 @@ protected:
 public:
 	UFUNCTION()
 	void OnHostButtonClicked();
-
 	UFUNCTION()
 	void OnJoinButtonClicked();
+	UFUNCTION()
+	void OnCancelButtonClicked();
 
 	void SetMenuInterface(IMenuInterface* menuInterface);
-
 	void Setup();
 	void Teardown();
 
@@ -37,6 +38,18 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* JoinButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* CancelButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UWidgetSwitcher* MenuSwitcher;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UWidget* JoinMenu;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UWidget* InitialMenu;
 
 private:
 	IMenuInterface* _menuInterface;

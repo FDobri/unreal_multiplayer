@@ -10,13 +10,14 @@ bool UMainMenu::Initialize()
 		return false;
 	}
 	
-	if (!ensure(HostButton != nullptr) || !ensure(JoinButton != nullptr))
+	if (!ensure(HostButton != nullptr && JoinButton != nullptr))
 	{
 		return false;
 	}
 
 	HostButton->OnClicked.AddDynamic(this, &UMainMenu::OnHostButtonClicked);
 	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OnJoinButtonClicked);
+	CancelButton->OnClicked.AddDynamic(this, &UMainMenu::OnCancelButtonClicked);
 	return true;
 }
 
@@ -31,7 +32,19 @@ void UMainMenu::OnHostButtonClicked()
 
 void UMainMenu::OnJoinButtonClicked()
 {
+	if (!ensure(MenuSwitcher != nullptr && JoinMenu != nullptr))
+		return;
+
+	MenuSwitcher->SetActiveWidget(JoinMenu);
 	UE_LOG(LogTemp, Warning, TEXT("Joining server."));
+}
+
+void UMainMenu::OnCancelButtonClicked()
+{
+	if (!ensure(MenuSwitcher != nullptr && InitialMenu != nullptr))
+		return;
+
+	MenuSwitcher->SetActiveWidget(InitialMenu);
 }
 
 void UMainMenu::SetMenuInterface(IMenuInterface* menuInterface)
