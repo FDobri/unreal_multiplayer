@@ -91,22 +91,9 @@ void UMultiplayerGameInstance::LoadMainMenu()
 	if (!ensure(playerController != nullptr))
 		return;
 	playerController->ClientTravel(MAIN_MENU_MAP_PATH, ETravelType::TRAVEL_Absolute);
-
-	//if (playerController->HasAuthority())
-	//{
-	//	UWorld* world = GetWorld();
-	//	if (!ensure(world != nullptr))
-	//		return;
-	//	world->ServerTravel(MAIN_MENU_MAP_PATH);
-	//}
-	//else
-	//{
-	//	playerController->ClientTravel(MAIN_MENU_MAP_PATH, ETravelType::TRAVEL_Absolute);
-	//}
 }
 
 void UMultiplayerGameInstance::OnServerSessionEnded(UWorld* world, UNetDriver* netDriver, ENetworkFailure::Type failureType, const FString& errorString)
 {
-	// log error message
-	LoadMenu();
+	GetWorld()->GetFirstPlayerController()->ClientTravel(MAIN_MENU_MAP_PATH, ETravelType::TRAVEL_Absolute);
 }
