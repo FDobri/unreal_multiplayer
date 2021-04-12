@@ -29,10 +29,16 @@ public:
 	void LoadInGameMenu();
 
 	UFUNCTION(Exec)
-	void Host();
+	void Host() override;
 
 	UFUNCTION(Exec)
-	void Join(const FString& address);
+	void Join(const FString& address) override;
+
+	UFUNCTION(Exec)
+	void LoadMainMenu() override;
+
+private:
+	void OnServerSessionEnded(UWorld* world, UNetDriver* netDriver, ENetworkFailure::Type failureType, const FString& errorString);
 
 private:
 	TSubclassOf<class UUserWidget> _menuClass;
@@ -40,4 +46,7 @@ private:
 
 	class UMenuWidgetBase* _menu;
 	class UMenuWidgetBase* _inGameMenu;
+
+	const FString PLAYABLE_MAP_PATH = "/Game/ThirdPersonBP/Maps/ThirdPersonExampleMap?listen";
+	const FString MAIN_MENU_MAP_PATH = "/Game/MenuSystem/MainMenu";
 };

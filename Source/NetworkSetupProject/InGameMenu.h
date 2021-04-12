@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MenuWidgetBase.h"
+#include "Components/Button.h"
 #include "InGameMenu.generated.h"
 
 /**
@@ -14,4 +15,19 @@ class NETWORKSETUPPROJECT_API UInGameMenu : public UMenuWidgetBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual bool Initialize();
+
+protected:
+	UFUNCTION()
+	void OnCancelButtonClicked();
+
+	UFUNCTION()
+	void OnLeaveButtonClicked();
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* CancelButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* LeaveButton;
 };

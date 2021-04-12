@@ -26,6 +26,7 @@ UMultiplayerGameInstance::UMultiplayerGameInstance(const FObjectInitializer& obj
 void UMultiplayerGameInstance::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *_menuClass->GetName());
+	GetEngine()->OnNetworkFailure().AddUObject(this, &UMultiplayerGameInstance::OnServerSessionEnded);
 }
 
 void UMultiplayerGameInstance::LoadMenu()
@@ -64,7 +65,7 @@ void UMultiplayerGameInstance::Host()
 	UWorld* world = GetWorld();
 	if (!ensure(world != nullptr))
 		return;
-	world->ServerTravel("/Game/ThirdPersonBP/Maps/ThirdPersonExampleMap?listen");
+	world->ServerTravel(PLAYABLE_MAP_PATH);
 }
 
 void UMultiplayerGameInstance::Join(const FString& address)
@@ -82,4 +83,30 @@ void UMultiplayerGameInstance::Join(const FString& address)
 	if (!ensure(playerController != nullptr))
 		return;
 	playerController->ClientTravel(address, ETravelType::TRAVEL_Absolute);
+}
+
+void UMultiplayerGameInstance::LoadMainMenu()
+{
+	APlayerController* playerController = GetFirstLocalPlayerController();
+	if (!ensure(playerController != nullptr))
+		return;
+	playerController->ClientTravel(MAIN_MENU_MAP_PATH, ETravelType::TRAVEL_Absolute);
+
+	//if (playerController->HasAuthority())
+	//{
+	//	UWorld* world = GetWorld();
+	//	if (!ensure(world != nullptr))
+	//		return;
+	//	world->ServerTravel(MAIN_MENU_MAP_PATH);
+	//}
+	//else
+	//{
+	//	playerController->ClientTravel(MAIN_MENU_MAP_PATH, ETravelType::TRAVEL_Absolute);
+	//}
+}
+
+void UMultiplayerGameInstance::OnServerSessionEnded(UWorld* world, UNetDriver* netDriver, ENetworkFailure::Type failureType, const FString& errorString)
+{
+	// log error message
+	LoadMenu();
 }

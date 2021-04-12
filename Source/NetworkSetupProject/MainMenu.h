@@ -27,6 +27,8 @@ public:
 	UFUNCTION()
 	void OnJoinButtonClicked();
 	UFUNCTION()
+	void OnQuitButtonClicked();
+	UFUNCTION()
 	void OnCancelButtonClicked();
 	UFUNCTION()
 	void OnJoinIPAdressButtonClicked();
@@ -37,6 +39,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* JoinButton;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* QuitButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* CancelButton;
