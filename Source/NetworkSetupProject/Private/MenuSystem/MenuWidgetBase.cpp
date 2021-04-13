@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MenuWidgetBase.h"
+#include "MenuSystem/MenuWidgetBase.h"
 
 void UMenuWidgetBase::SetMenuInterface(IMenuInterface* menuInterface)
 {

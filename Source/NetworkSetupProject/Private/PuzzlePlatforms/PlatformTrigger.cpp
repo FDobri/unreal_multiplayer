@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "PlatformTrigger.h"
+#include "PuzzlePlatforms/PlatformTrigger.h"
 
 // Sets default values
 APlatformTrigger::APlatformTrigger()

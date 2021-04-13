@@ -1,14 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MultiplayerGameInstance.h"
+#include "GameInstance/MultiplayerGameInstance.h"
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
-#include "PlatformTrigger.h"
-#include "MainMenu.h"
-#include "InGameMenu.h"
-#include "MenuWidgetBase.h"
+#include "PuzzlePlatforms/PlatformTrigger.h"
+#include "MenuSystem/MainMenu.h"
+#include "MenuSystem/InGameMenu.h"
+#include "MenuSystem/MenuWidgetBase.h"
 
 UMultiplayerGameInstance::UMultiplayerGameInstance(const FObjectInitializer& objectInitializer)
 {

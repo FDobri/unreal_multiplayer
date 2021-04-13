@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "MenuInterface.h"
+#include "../MenuSystem/MenuInterface.h"
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "MultiplayerGameInstance.generated.h"
